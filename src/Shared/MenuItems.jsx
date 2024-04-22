@@ -1,5 +1,5 @@
 const MenuItems = ({ item }) => {
-    const { name, image, category, recipe, price } = item;
+    const { name, image, recipe, price } = item;
     console.log(item)
     return (
         <div className="flex items-center gap-5">
