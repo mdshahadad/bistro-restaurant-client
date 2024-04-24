@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Navbar = () => {
+    const { category } = useParams();
 
     const navOptions =
         <>
             <li><Link to='/menu'>Our Menu</Link></li>
-            <li><Link to='/orderFood'>Order Food</Link></li>
+            <li><Link to={`/order/${category}`}>Order Food</Link></li>
             <li><Link to='/menu'>Our Menu</Link></li>
         </>
 
