@@ -1,32 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+const SignUp = () => {
 
-const Login = () => {
-    const captchaHandle = useRef(null);
-    const [disabled, setDisabled] = useState(true);
-
-    useEffect(() => {
-        loadCaptchaEnginge(6);
-    }, [])
-
-
-    const handleLoginForm = e => {
+    const handleSignUp = e => {
         e.preventDefault();
         const form = e.target;
+        const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password)
+        console.log(email, password, name);
     }
-
-    const handleCaptch = () => {
-        const captcha = captchaHandle.current.value;
-        console.log(captcha)
-        if (validateCaptcha(captcha) == true) {
-            setDisabled(false)
-        }
-    }
-
     return (
         <div>
             <div className="hero min-h-screen bg-base-200">
@@ -36,7 +17,17 @@ const Login = () => {
                         <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
                     </div>
                     <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                        <form onSubmit={handleLoginForm} className="card-body">
+                        <form onSubmit={handleSignUp} className="card-body">
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Name</span>
+                                </label>
+                                <input
+                                    name="name"
+                                    type="text"
+                                    placeholder="name"
+                                    className="input input-bordered" required />
+                            </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Email</span>
@@ -57,26 +48,10 @@ const Login = () => {
                                     placeholder="password"
                                     className="input input-bordered"
                                     required />
-                                <label className="label">
-                                    <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                                </label>
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <LoadCanvasTemplate />
-                                </label>
-                                <input ref={captchaHandle}
-                                    name="captcha"
-                                    type="text"
-                                    placeholder="captcha"
-                                    className="input input-bordered"
-                                    required />
-                                <button onClick={handleCaptch} className="btn btn-warning btn-sm mt-2">Validate</button>
                             </div>
                             <div className="form-control mt-6">
-                                <button disabled={disabled} className="btn btn-primary">Login</button>
+                                <button className="btn btn-primary">Sign Up</button>
                             </div>
-                            <p className='font-bold'><small>New here?</small>  <button className='text-blue-500'><Link to='/singUp'>Sign Up here</Link></button> </p>
                         </form>
                     </div>
                 </div>
@@ -85,4 +60,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SignUp;
