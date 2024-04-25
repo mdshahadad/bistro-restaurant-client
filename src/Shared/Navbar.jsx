@@ -1,13 +1,44 @@
 import { Link } from "react-router-dom";
+import { FaCartShopping } from "react-icons/fa6";
+import { useContext } from "react";
+import { AuthContext } from "../Provider/AuthProvider";
+
 
 const Navbar = () => {
+    const { user, signOutUser } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        signOutUser()
+            .then(() => {
+                console.log('SingOut Succesfully')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     const navOptions =
         <>
             <li><Link to='/menu'>Our Menu</Link></li>
             <li><Link to="/order/salad">Order Food</Link></li>
             <li><Link to='/menu'>Our Menu</Link></li>
-            <li><Link to='/login'>Login</Link></li>
-            {/* <li><Link to='/singUp'>SignUp</Link></li> */}
+            {
+                user ?
+                    <>
+                        <li onClick={handleLogOut}> <Link to='/'>SignOut</Link></li>
+                    </> :
+                    <>
+                        <li><Link to='/login'>Login</Link></li >
+                    </>
+            }
+            <li>
+                <Link to="/">
+                    <button className="flex">
+                        <FaCartShopping className="text-4xl" />
+                        <div className="badge badge-success absolute top-0 right-0">+0</div>
+                    </button>
+                </Link>
+            </li>
         </>
 
     return (
