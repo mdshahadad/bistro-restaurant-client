@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import { AuthContext } from '../../../Provider/AuthProvider';
 
 const Login = () => {
-    const captchaHandle = useRef(null);
     const [disabled, setDisabled] = useState(true);
+    const { loginUser } = useContext(AuthContext);
 
     useEffect(() => {
         loadCaptchaEnginge(6);
@@ -16,11 +17,18 @@ const Login = () => {
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password)
+        console.log(email, password);
+        loginUser(email, password)
+            .then(user => {
+                console.log(user)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
-    const handleCaptch = () => {
-        const captcha = captchaHandle.current.value;
+    const handleCaptcha = (e) => {
+        const captcha = e.target.value;
         console.log(captcha)
         if (validateCaptcha(captcha) == true) {
             setDisabled(false)
@@ -65,13 +73,13 @@ const Login = () => {
                                 <label className="label">
                                     <LoadCanvasTemplate />
                                 </label>
-                                <input ref={captchaHandle}
+                                <input
+                                    onBlur={handleCaptcha}
                                     name="captcha"
                                     type="text"
                                     placeholder="captcha"
                                     className="input input-bordered"
                                     required />
-                                <button onClick={handleCaptch} className="btn btn-warning btn-sm mt-2">Validate</button>
                             </div>
                             <div className="form-control mt-6">
                                 <button disabled={disabled} className="btn btn-primary">Login</button>
